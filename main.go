@@ -16,10 +16,9 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 	user.Age = age
 	user.Email = r.FormValue("email")
 	user.Username = r.FormValue("username")
-	err := crud.AddUser(user)
-	if !err {
+
+	if err := crud.AddUser(user); !err {
 		w.WriteHeader(404)
-		w.Write([]byte("ошибка запроса в бд"))
 		return
 	}
 	data, _ := json.Marshal(user)
@@ -33,7 +32,7 @@ func GetForm(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", GetForm)
-	http.HandleFunc("/user", RegisterUser)
+	http.HandleFunc("/postform", RegisterUser)
 
 	err := http.ListenAndServe(":8081", nil)
 

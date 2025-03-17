@@ -1,7 +1,6 @@
 package crud
 
 import (
-	"fmt"
 	db "user_reg/database"
 	sh "user_reg/schemas"
 )
@@ -11,6 +10,6 @@ func AddUser(user sh.User) bool {
 	if err != nil {
 		return false
 	}
-	fmt.Println(user)
+
 	return true
 }
