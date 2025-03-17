@@ -21,7 +21,12 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(data))
 }
 
+func GetForm(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "form.html")
+}
+
 func main() {
+	http.HandleFunc("/", GetForm)
 	http.HandleFunc("/user", RegisterUser)
 
 	err := http.ListenAndServe(":8081", nil)
