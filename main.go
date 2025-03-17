@@ -4,16 +4,22 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 	"user_reg/crud"
 	sh "user_reg/schemas"
 )
 
 func RegisterUser(w http.ResponseWriter, r *http.Request) {
 	var user sh.User
-	errjs := json.NewDecoder(r.Body).Decode(&user)
+	age, _ := strconv.Atoi(r.FormValue("age"))
 
-	if err := crud.AddUser(user); !err || errjs != nil {
-		w.WriteHeader(400)
+	user.Age = age
+	user.Email = r.FormValue("email")
+	user.Username = r.FormValue("username")
+	err := crud.AddUser(user)
+	if !err {
+		w.WriteHeader(404)
+		w.Write([]byte("ошибка запроса в бд"))
 		return
 	}
 	data, _ := json.Marshal(user)

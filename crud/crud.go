@@ -2,17 +2,15 @@ package crud
 
 import (
 	"fmt"
-	"log"
 	db "user_reg/database"
 	sh "user_reg/schemas"
 )
 
 func AddUser(user sh.User) bool {
 	_, err := db.Conn.Exec("insert into users (username, age, email, role) values ($1, $2, $3, $4)", user.Username, user.Age, user.Email, user.Role)
-	fmt.Print(user)
 	if err != nil {
-		log.Fatal(err)
 		return false
 	}
+	fmt.Println(user)
 	return true
 }
